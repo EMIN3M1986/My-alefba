@@ -1,8 +1,10 @@
-package com.example.myalefba
+package com.example.myalefba.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.work.*
+import com.example.myalefba.model.services.BitcoinService
+import com.example.myalefba.R
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
 
@@ -22,7 +24,7 @@ class MainActivity : AppCompatActivity() {
             .build()
 
         val getPriceRequest =
-            PeriodicWorkRequestBuilder<MyService>(16, TimeUnit.MINUTES)
+            PeriodicWorkRequestBuilder<BitcoinService>(16, TimeUnit.MINUTES)
                 .setConstraints(constraints)
                 // Additional configuration
                 .build()

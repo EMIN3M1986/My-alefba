@@ -1,4 +1,4 @@
-package com.example.myalefba
+package com.example.myalefba.model.services
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -15,14 +15,15 @@ import androidx.work.CoroutineWorker
 import androidx.work.ForegroundInfo
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import com.example.myalefba.R
 import com.example.myalefba.model.repository.CryptoRepository
+import com.example.myalefba.ui.BitcoinWidget
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.delay
 
 
 @HiltWorker
-class MyService @AssistedInject constructor(
+class BitcoinService @AssistedInject constructor(
     @Assisted val context: Context,
     @Assisted val workerParams: WorkerParameters,
     private val cryptoRepository: CryptoRepository

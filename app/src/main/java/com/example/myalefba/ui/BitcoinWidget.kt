@@ -1,17 +1,17 @@
-package com.example.myalefba
+package com.example.myalefba.ui
 
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.util.Log
 import android.widget.RemoteViews
+import com.example.myalefba.R
 import com.example.myalefba.model.repository.CryptoRepository
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.random.Random
 
 /**
  * Implementation of App Widget functionality.
