@@ -5,17 +5,16 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.util.Log
 import android.widget.RemoteViews
+import androidx.work.*
 import com.example.myalefba.R
 import com.example.myalefba.model.repository.CryptoRepository
+import com.example.myalefba.model.services.BitcoinService
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-
-/**
- * Implementation of App Widget functionality.
- */
 
 @AndroidEntryPoint
 class BitcoinWidget : AppWidgetProvider() {
@@ -29,12 +28,17 @@ class BitcoinWidget : AppWidgetProvider() {
         appWidgetIds: IntArray
     ) {
         Log.d("babiWidget", "onUpdate")
-        // There may be multiple widgets active, so update all of them
+
         CoroutineScope(Main).launch {
             for (appWidgetId in appWidgetIds) {
                 updateAppWidget(context, appWidgetManager, appWidgetId, cryptoRepository)
             }
         }
+    }
+
+    override fun onEnabled(context: Context?) {
+        super.onEnabled(context)
+        context?.let { loadData(it) }
     }
 
 }
@@ -47,7 +51,7 @@ internal suspend fun updateAppWidget(
 ) {
 
     Log.d("babiWidget", "updateAppWidget")
-    // Construct the RemoteViews object
+
     val views = RemoteViews(context.packageName, R.layout.bitcoin_widget)
 
     cryptoRepository
@@ -58,6 +62,27 @@ internal suspend fun updateAppWidget(
 
             appWidgetManager.updateAppWidget(appWidgetId, views)
         }
+}
+
+internal fun loadData(context: Context) {
+
+    val constraints = Constraints.Builder()
+        .setRequiredNetworkType(NetworkType.CONNECTED)
+        .build()
+
+    val getPriceRequest =
+        PeriodicWorkRequestBuilder<BitcoinService>(16, TimeUnit.MINUTES)
+            .setConstraints(constraints)
+            // Additional configuration
+            .build()
+
+    WorkManager
+        .getInstance(context)
+        .enqueueUniquePeriodicWork(
+            "workerName",
+            ExistingPeriodicWorkPolicy.REPLACE,
+            getPriceRequest
+        )
 }
 
 

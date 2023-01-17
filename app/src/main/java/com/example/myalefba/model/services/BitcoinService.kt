@@ -20,6 +20,7 @@ import com.example.myalefba.model.repository.CryptoRepository
 import com.example.myalefba.ui.BitcoinWidget
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.delay
 
 
 @HiltWorker
@@ -37,7 +38,7 @@ class BitcoinService @AssistedInject constructor(
     override suspend fun doWork(): Result {
         Log.d("MyService", "doWork---->")
         getToBtc()
-//        delay(60000)
+        delay(30000)
         return Result.success()
     }
 
@@ -45,7 +46,7 @@ class BitcoinService @AssistedInject constructor(
     private suspend fun getToBtc() {
         cryptoRepository.toBtc("USD", 1)
         sendBroadcast()
-//        setForeground(createForegroundInfo())
+        setForeground(createForegroundInfo())
     }
 
     private fun sendBroadcast() {
