@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.random.Random.Default.nextInt
@@ -21,7 +22,7 @@ class CryptoRepository(
     suspend fun toBtc(
         currency: String,
         value: Int
-    ) {
+    ):Response<Double> {
         val response = cryptoAPICall.toBtc(currency, value)
         if (response.isSuccessful) {
             response.body()?.let {
@@ -38,6 +39,7 @@ class CryptoRepository(
                 )
             }
         }
+        return response
     }
 
     fun getAveragePrice(days: Int): Flow<String> =
