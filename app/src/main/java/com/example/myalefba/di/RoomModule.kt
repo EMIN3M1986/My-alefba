@@ -30,7 +30,7 @@ object RoomModule {
             .setQueryCallback(object : RoomDatabase.QueryCallback {
                 override fun onQuery(sqlQuery: String, bindArgs: List<Any?>) {
                     Log.d(
-                        "babiRoom",
+                        "BitcoinRoom",
                         "SQL Query: $sqlQuery SQL Args: $bindArgs"
                     )
                 }

@@ -36,21 +36,26 @@ class BitcoinService @AssistedInject constructor(
 
     @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun doWork(): Result {
-        Log.d("MyService", "doWork---->")
+        Log.d("BitcoinService", "doWork---->")
         getToBtc()
-        delay(30000)
+
+        //Uncomment to see the notification for 10 seconds. Just for test
+        delay(10000)
         return Result.success()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private suspend fun getToBtc() {
+        Log.d("BitcoinService", "getToBtc---->")
         cryptoRepository.toBtc("USD", 1)
         sendBroadcast()
+
+        //Uncomment to show the notification when service try to get bitcoin price.
         setForeground(createForegroundInfo())
     }
 
     private fun sendBroadcast() {
-        Log.d("MyService", "toBtc--->")
+        Log.d("BitcoinService", "sendBroadcast()--->")
         val man = AppWidgetManager.getInstance(context)
         val ids = man.getAppWidgetIds(
             ComponentName(context, BitcoinWidget::class.java)

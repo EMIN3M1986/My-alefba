@@ -13,7 +13,6 @@ import com.example.myalefba.model.db.entity.BtcEntity
     version = 1,
     exportSchema = false
 )
-//@TypeConverters(Converters::class)
 abstract class AppDatabase: RoomDatabase() {
     abstract fun BtcDao(): BtcDao
 

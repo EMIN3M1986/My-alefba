@@ -27,7 +27,7 @@ class BitcoinWidget : AppWidgetProvider() {
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray
     ) {
-        Log.d("babiWidget", "onUpdate")
+        Log.d("BitcoinWidget", "onUpdate")
 
         CoroutineScope(Main).launch {
             for (appWidgetId in appWidgetIds) {
@@ -50,14 +50,12 @@ internal suspend fun updateAppWidget(
     cryptoRepository: CryptoRepository
 ) {
 
-    Log.d("babiWidget", "updateAppWidget")
-
     val views = RemoteViews(context.packageName, R.layout.bitcoin_widget)
 
     cryptoRepository
         .getAveragePrice(4)
         .collect { price ->
-            Log.d("babiWidget", "updateAppWidget price= $price")
+            Log.d("BitcoinWidget", "updateAppWidget price= $price")
             views.setTextViewText(R.id.appwidget_text, price)
 
             appWidgetManager.updateAppWidget(appWidgetId, views)

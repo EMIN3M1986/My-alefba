@@ -11,8 +11,6 @@ import kotlinx.coroutines.flow.map
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.random.Random.Default.nextInt
-
 
 class CryptoRepository(
     private val cryptoAPICall: CryptoAPICall,
@@ -22,19 +20,19 @@ class CryptoRepository(
     suspend fun toBtc(
         currency: String,
         value: Int
-    ):Response<Double> {
+    ): Response<Double> {
         val response = cryptoAPICall.toBtc(currency, value)
         if (response.isSuccessful) {
             response.body()?.let {
 
+//              val number = Random().nextInt(100000).toDouble()
                 val date: String =
                     SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
 
-//                val number = Random().nextInt(100000).toDouble()
                 btcDao.insertBtcFee(
                     BtcEntity(
                         getDate = date,
-                        fee = 1/it
+                        fee = 1 / it
                     )
                 )
             }
@@ -45,8 +43,9 @@ class CryptoRepository(
     fun getAveragePrice(days: Int): Flow<String> =
         btcDao.getAveragePrice(days)
             .map { item ->
-                item?.convertPrice (true , 2) ?: "0.0"
-            }.flowOn(Dispatchers.IO)
+                item?.convertPrice(true, 2) ?: "0.0"
+            }
+            .flowOn(Dispatchers.IO)
 
 
 }
